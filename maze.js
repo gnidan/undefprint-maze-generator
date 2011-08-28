@@ -65,6 +65,94 @@ Array.prototype.shuffle = function() {
     return this;
 }
 
+printMaze = function() {
+  // print vertical walls between cells
+  for(var i=1; i<pHeight()-1; i=i+2) {
+    for(var j=2; j<pWidth()-1; j=j+2) {
+      var mI = Math.floor((i-1)/2);
+      var mJ = Math.floor((j-1)/2);
+
+      if(MazeGenerator.hasWall(mI, mJ, WEST)) {
+        print[i][j] = NS;
+      }
+    }
+  }
+
+  // print horizontal walls between cells
+  for(var i=2; i<pHeight()-1; i=i+2) {
+    for(var j=1; j<pWidth()-1; j=j+2) {
+      var mI = Math.floor((i-1)/2);
+      var mJ = Math.floor((j-1)/2);
+
+      if(MazeGenerator.hasWall(mI, mJ, SOUTH)) {
+        print[i][j] = WE;
+      }
+    }
+  }
+
+  // print walls between walls
+  for(var i=2; i<pHeight()-1; i=i+2) {
+    for(var j=2; j<pWidth()-1; j=j+2) {
+      if(print[i-1][j] && print[i+1][j])
+        print[i][j] = NS;
+
+      if(print[i][j-1] && print[i][j+1])
+        print[i][j] = WE;
+
+      if(print[i+1][j] && print[i][j-1])
+        print[i][j] = SE;
+
+      if(print[i][j+1] && print[i+1][j])
+        print[i][j] = WS;
+
+      if(print[i-1][j] && print[i][j+1])
+        print[i][j] = NW;
+
+      if(print[i-1][j] && print[i][j-1])
+        print[i][j] = NE;
+
+      if(print[i-1][j] && print[i][j-1] && print[i+1][j])
+        print[i][j] = NSE;
+
+      if(print[i-1][j] && print[i][j-1] && print[i][j+1])
+        print[i][j] = NWE;
+
+      if(print[i][j-1] && print[i][j+1] && print[i+1][j])
+        print[i][j] = WSE;
+
+      if(print[i-1][j] && print[i][j+1] && print[i+1][j])
+        print[i][j] = NWS;
+
+      if(print[i-1][j] && print[i+1][j] && print[i][j-1] && print[i][j+1])
+        print[i][j] = NWSE;
+    }
+  }
+
+  // flush print
+  for(var i=0; i<pHeight(); i++) {
+    for(var j=0; j<pWidth(); j++) {
+      if(print[i][j] > 0) {
+        pSymbolA(print[i][j]);
+        pPixel(j, i);
+      }
+    }
+  }
+}
+
+printVisitedCells = function() {
+  // print visited cells
+  for(var i=1; i<pHeight()-1; i=i+2) {
+    for(var j=1; j<pWidth()-1; j=j+2) {
+      var mI = Math.floor((i-1)/2);
+      var mJ = Math.floor((j-1)/2);
+      if(MazeGenerator.isVisited(mI,mJ)) {
+        pSymbolA(135);
+        pPixel(j,i);
+      }
+    }
+  }
+}
+
 MazeGenerator = {
   'hasWall': function(i, j, direction) {
     return !(direction & maze[i][j]);
@@ -172,81 +260,3 @@ MazeGenerator = {
 
 MazeGenerator.generateMaze();
 
-for(var i=1; i<pHeight()-1; i=i+2) {
-  for(var j=2; j<pWidth()-1; j=j+2) {
-    var mI = Math.floor((i-1)/2);
-    var mJ = Math.floor((j-1)/2);
-
-    if(MazeGenerator.hasWall(mI, mJ, WEST)) {
-      print[i][j] = NS;
-    }
-  }
-}
-
-for(var i=2; i<pHeight()-1; i=i+2) {
-  for(var j=1; j<pWidth()-1; j=j+2) {
-    var mI = Math.floor((i-1)/2);
-    var mJ = Math.floor((j-1)/2);
-
-    if(MazeGenerator.hasWall(mI, mJ, SOUTH)) {
-      print[i][j] = WE;
-    }
-  }
-}
-
-for(var i=2; i<pHeight()-1; i=i+2) {
-  for(var j=2; j<pWidth()-1; j=j+2) {
-    if(print[i-1][j] && print[i+1][j])
-      print[i][j] = NS;
-
-    if(print[i][j-1] && print[i][j+1])
-      print[i][j] = WE;
-
-    if(print[i+1][j] && print[i][j-1])
-      print[i][j] = SE;
-
-    if(print[i][j+1] && print[i+1][j])
-      print[i][j] = WS;
-
-    if(print[i-1][j] && print[i][j+1])
-      print[i][j] = NW;
-
-    if(print[i-1][j] && print[i][j-1])
-      print[i][j] = NE;
-
-    if(print[i-1][j] && print[i][j-1] && print[i+1][j])
-      print[i][j] = NSE;
-
-    if(print[i-1][j] && print[i][j-1] && print[i][j+1])
-      print[i][j] = NWE;
-
-    if(print[i][j-1] && print[i][j+1] && print[i+1][j])
-      print[i][j] = WSE;
-
-    if(print[i-1][j] && print[i][j+1] && print[i+1][j])
-      print[i][j] = NWS;
-
-    if(print[i-1][j] && print[i+1][j] && print[i][j-1] && print[i][j+1])
-      print[i][j] = NWSE;
-  }
-}
-
-for(var i=1; i<pHeight()-1; i=i+2) {
-  for(var j=1; j<pWidth()-1; j=j+2) {
-    var mI = Math.floor((i-1)/2);
-    var mJ = Math.floor((j-1)/2);
-    if(MazeGenerator.isVisited(mI,mJ)) {
-      pSymbolA(135);
-      pPixel(j,i);
-    }
-  }
-}
-
-for(var i=0; i<pHeight(); i++) {
-  for(var j=0; j<pWidth(); j++) {
-    if(print[i][j] > 0) {
-//      pSymbolA(print[i][j]);
-//      pPixel(j, i);
-    }
-  }
-}
