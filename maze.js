@@ -202,10 +202,10 @@ for(var i=1; i<pHeight()-1; i=i+2) {
     if(print[i][j-1] && print[i][j+1])
       print[i][j] = WE;
 
-    if(print[i+1][j] && print[i][j+1])
+    if(print[i+1][j] && print[i][j-1])
       print[i][j] = SE;
 
-    if(print[i][j-1] && print[i+1][j])
+    if(print[i][j+1] && print[i+1][j])
       print[i][j] = WS;
 
     if(print[i-1][j] && print[i][j+1])
