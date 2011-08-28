@@ -172,8 +172,8 @@ MazeGenerator = {
 
 MazeGenerator.generateMaze();
 
-for(var i=1; i<pHeight(); i=i+2) {
-  for(var j=2; j<pWidth(); j=j+2) {
+for(var i=1; i<pHeight()-1; i=i+2) {
+  for(var j=2; j<pWidth()-1; j=j+2) {
     var mI = Math.floor((i-1)/2);
     var mJ = Math.floor((j-1)/2);
 
@@ -183,8 +183,8 @@ for(var i=1; i<pHeight(); i=i+2) {
   }
 }
 
-for(var i=2; i<pHeight(); i=i+2) {
-  for(var j=1; j<pWidth(); j=j+2) {
+for(var i=2; i<pHeight()-1; i=i+2) {
+  for(var j=1; j<pWidth()-1; j=j+2) {
     var mI = Math.floor((i-1)/2);
     var mJ = Math.floor((j-1)/2);
 
@@ -194,8 +194,8 @@ for(var i=2; i<pHeight(); i=i+2) {
   }
 }
 
-for(var i=1; i<pHeight()-1; i=i+2) {
-  for(var j=1; j<pWidth()-1; j=j+2) {
+for(var i=2; i<pHeight()-1; i=i+2) {
+  for(var j=2; j<pWidth()-1; j=j+2) {
     if(print[i-1][j] && print[i+1][j])
       print[i][j] = NS;
 
