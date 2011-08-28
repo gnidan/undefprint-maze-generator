@@ -92,10 +92,10 @@ MazeGenerator = {
       directions.push(SOUTH);
 
     if(j > 0) 
-      directions.push(WEST);
+      directions.push(EAST);
 
     if(j < mWidth - 1) 
-      directions.push(EAST);
+      directions.push(WEST);
     
     return directions;
   },
@@ -116,10 +116,10 @@ MazeGenerator = {
         coords[0] += 1; 
         break;
       case EAST:
-        coords[1] += 1;
+        coords[1] -= 1;
         break;
       case WEST:
-        coords[1] -= 1;
+        coords[1] += 1;
         break;
     }
 
@@ -177,7 +177,7 @@ for(var i=1; i<pHeight(); i=i+2) {
     var mI = Math.floor((i-1)/2);
     var mJ = Math.floor((j-1)/2);
 
-    if(MazeGenerator.hasWall(mI, mJ, EAST)) {
+    if(MazeGenerator.hasWall(mI, mJ, WEST)) {
       print[i][j] = NS;
     }
   }
@@ -209,13 +209,13 @@ for(var i=1; i<pHeight()-1; i=i+2) {
       print[i][j] = WS;
 
     if(print[i-1][j] && print[i][j+1])
-      print[i][j] = NE;
-
-    if(print[i-1][j] && print[i][j-1])
       print[i][j] = NW;
 
+    if(print[i-1][j] && print[i][j-1])
+      print[i][j] = NE;
+
     if(print[i-1][j] && print[i][j-1] && print[i+1][j])
-      print[i][j] = NWS
+      print[i][j] = NSE;
 
     if(print[i-1][j] && print[i][j-1] && print[i][j+1])
       print[i][j] = NWE;
@@ -224,7 +224,7 @@ for(var i=1; i<pHeight()-1; i=i+2) {
       print[i][j] = WSE;
 
     if(print[i-1][j] && print[i][j+1] && print[i+1][j])
-      print[i][j] = NSE;
+      print[i][j] = NWS;
 
     if(print[i-1][j] && print[i+1][j] && print[i][j-1] && print[i][j+1])
       print[i][j] = NWSE;
@@ -235,7 +235,7 @@ for(var i=0; i<pHeight(); i++) {
   for(var j=0; j<pWidth(); j++) {
     if(print[i][j] > 0) {
 //      pSymbolA(print[i][j]);
-//      pPixel(i, j);
+//      pPixel(j, i);
     }
   }
 }
