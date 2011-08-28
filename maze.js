@@ -29,6 +29,19 @@ WS   = 152;
 NE   = 155;
 NW   = 153;
 
+opposite = function(direction) { 
+  switch(direction) {
+    case NORTH:
+      return SOUTH;
+    case SOUTH:
+      return NORTH;
+    case EAST:
+      return WEST;
+    case WEST:
+      return EAST;
+  }
+}
+
 
 // init maze
 var maze = new Array(mHeight);
@@ -90,7 +103,7 @@ printMaze = function() {
     }
   }
 
-  // print walls between walls
+  // print walls between walls and west and south border
   for(var i=2; i<pHeight()-1; i=i+2) {
     for(var j=2; j<pWidth()-1; j=j+2) {
       if(print[i-1][j] && print[i+1][j])
@@ -128,6 +141,53 @@ printMaze = function() {
     }
   }
 
+  //print north border
+  var i=0;
+  for(var j = 0; j<pWidth()-1; j++) {
+    if(j===0) {
+      print[i][j] = WS;
+    }
+    else if(j === pWidth() - 2) {
+      print[i][j] = SE;
+    }
+    else if(j % 2 === 1) {
+      print[i][j] = WE;
+    }
+    else {
+      if(print[i+1][j] === 0) {
+        print[i][j] = WE;
+      }
+      else {
+        print[i][j] = WSE;
+      }
+    }
+  }
+
+  //print east border
+  var j=0;
+  for(var i = 1; i<pHeight()-1; i++) {
+    if(i === pHeight()-2) {
+      print[i][j] = NW;
+    }
+    else if(i % 2 === 1) {
+      print[i][j] = NS;
+    }
+    else {
+      if(print[i][j+1] === 0) {
+        print[i][j] = NS;
+      }
+      else {
+        print[i][j] = NWS;
+      }
+    }
+  }
+
+  // print start and end points
+  print[1][pWidth()-2] = 0;
+  print[1][pWidth()-1] = 94; //'^'
+
+  print[pHeight()-3][0] = 0;
+
   // flush print
   for(var i=0; i<pHeight(); i++) {
     for(var j=0; j<pWidth(); j++) {
@@ -160,6 +220,8 @@ MazeGenerator = {
 
   'allow': function(i, j, direction) {
     maze[i][j] = maze[i][j] | direction;
+    var neighbor = this.go(i,j,direction);
+    maze[neighbor[0]][neighbor[1]] = maze[neighbor[0]][neighbor[1]] | opposite(direction);
   },
 
   'isVisited': function(i, j) {
@@ -260,3 +322,4 @@ MazeGenerator = {
 
 MazeGenerator.generateMaze();
 
+printMaze();
