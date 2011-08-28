@@ -231,6 +231,17 @@ for(var i=2; i<pHeight()-1; i=i+2) {
   }
 }
 
+for(var i=1; i<pHeight()-1; i=i+2) {
+  for(var j=1; j<pWidth()-1; j=j+2) {
+    var mI = Math.floor((i-1)/2);
+    var mJ = Math.floor((j-1)/2);
+    if(MazeGenerator.isVisited(mI,mJ)) {
+      pSymbolA(135);
+      pPixel(j,i);
+    }
+  }
+}
+
 for(var i=0; i<pHeight(); i++) {
   for(var j=0; j<pWidth(); j++) {
     if(print[i][j] > 0) {
