@@ -1,6 +1,3 @@
-var pHeight = function() { return 9; }
-var pWidth = function() { return 9; }
-
 var mHeight = Math.floor((pHeight() - 1) / 2);
 var mWidth = Math.floor((pWidth() - 1) / 2);
 
@@ -185,8 +182,8 @@ printMaze = function() {
   // print start and end points
   print[1][pWidth()-2] = 0;
   print[1][pWidth()-1] = 94; //'^'
-
   print[pHeight()-3][0] = 0;
+  print[pHeight()-3][1] = 94; //'^'
 
   // flush print
   for(var i=0; i<pHeight(); i++) {
